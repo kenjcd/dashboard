@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Dynamic Portal</title>
+    
+    <style>
+      :root {
+          --bg: #f8f9fa;
+          --text: #212529;
+          --accent: #dee2e6;
+          --card-bg: #ffffff;
+          --primary-blue: #4a90e2;
+      }
+
+      body, html {
+          margin: 0;
+          padding: 0;
+          background: var(--bg);
+          font-family: 'Inter', -apple-system, sans-serif;
+          color: var(--text);
+          overflow-x: hidden;
+      }
+
+      /* Parallax Background */
+      .parallax-wrapper {
+          perspective: 10px;
+          height: 100vh;
+          overflow-x: hidden;
+          overflow-y: auto;
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          z-index: -1;
+      }
+      .layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+      .bg-base { background: radial-gradient(circle at 50% 50%, #e9ecef 0%, #f8f9fa 100%); transform: translateZ(-10px) scale(2); }
+      .bg-accent { background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity: 0.15; transform: translateZ(-5px) scale(1.5); }
+
+      /* KINETIC TYPOGRAPHY: SPLIT FLY-IN */
+      .hero {
+          padding-top: 15vh;
+          text-align: center;
+          perspective: 1000px; /* Enables 3D tilt */
+      }
+
+      .title-container {
+          display: inline-flex;
+          gap: 15px;
+          font-size: clamp(3rem, 8vw, 5rem);
+          font-weight: 900;
+          letter-spacing: -2px;
+          overflow: hidden; /* Clips the fly-in */
+      }
+
+      .fly-left, .fly-right {
+          display: inline-block;
+          background: linear-gradient(90deg, var(--text) 0%, var(--primary-blue) 50%, var(--text) 100%);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          transition: transform 0.1s ease-out;
+      }
+
+      .fly-left {
+          animation: flyInLeft 1.2s cubic-bezier(0.23, 1, 0.32, 1) both;
+      }
+
+      .fly-right {
+          animation: flyInRight 1.2s cubic-bezier(0.23, 1, 0.32, 1) both;
+      }
+
+      @keyframes flyInLeft {
+          0% { opacity: 0; transform: translateX(-100px) skewX(20deg); filter: blur(10px); }
+          100% { opacity: 1; transform: translateX(0) skewX(0deg); filter: blur(0); }
+      }
+
+      @keyframes flyInRight {
+          0% { opacity: 0; transform: translateX(100px) skewX(-20deg); filter: blur(10px); }
+          100% { opacity: 1; transform: translateX(0) skewX(0deg); filter: blur(0); }
+      }
+
+      /* GRID & CARDS */
+      #app { padding: 0 10%; text-align: center; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 4rem; padding-bottom: 5rem; }
+      
+      .card {
+          background: var(--card-bg);
+          padding: 2.5rem;
+          border-radius: 20px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+          transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+          cursor: pointer;
+          border: 1px solid rgba(0,0,0,0.05);
+      }
+
+      .card:hover {
+          transform: translateY(-15px);
+          box-shadow: 0 25px 50px rgba(0,0,0,0.08);
+          border-color: var(--primary-blue);
+      }
+    </style>
+</head>
+<body>
+
+    <div class="parallax-wrapper">
+        <div class="layer bg-base"></div>
+        <div class="layer bg-accent"></div>
+    </div>
+
+    <main id="app">
+        <section class="hero">
+            <div class="title-container" id="title">
+                <span class="fly-left">SchoolConnect</span>
+                <span class="fly-right">@SMKG</span>
+            </div>
+            <p style="opacity: 0.5; margin-top: 1px;">Pengurusan Dashboard Digital Sekolah Transformasi, Capaian di Jari Anda!</p>
+        </section>
+
+        <div id="card-container" class="grid"></div>
+    </main>
+
+    <script>
+        const portals = [
+            { title: '<a href="<?= serviceUrl ?>?page=login&section=akademik">Akademik</a>', desc: "Pengurusan kurikulum & bilik darjah.", icon: "🎓" },
+            { title: "MMI", desc: "Memaksimakan Masa Instruktional.", icon: "👥" },
+            { title: "GURU CEMERLANG", desc: "Menginspirasi Generasi, Mencipta Masa Depan.", icon: "🏆" }
+        ];
+
+        function renderCards() {
+            document.getElementById('card-container').innerHTML = portals.map(item => `
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 5px;">${item.icon}</div>
+                    <h3>${item.title}</h3>
+                    <p>${item.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const leftPart = document.querySelector('.fly-left');
+            const rightPart = document.querySelector('.fly-right');
+            
+            // 3D Tilt calculation
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            const transformStr = `rotateY(${x}deg) rotateX(${y}deg)`;
+            
+            leftPart.style.transform = transformStr;
+            rightPart.style.transform = transformStr;
+
+            // Shimmer effect calculation
+            const mouseXPercentage = (e.clientX / window.innerWidth) * 100;
+            leftPart.style.backgroundPosition = `${mouseXPercentage}% center`;
+            rightPart.style.backgroundPosition = `${mouseXPercentage}% center`;
+        });
+
+        renderCards();
+    </script>
+<center>~ SMK GUNSANAD BERABIS CEMERLANG ~</center>
+</body>
+</html>
