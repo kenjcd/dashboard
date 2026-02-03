@@ -702,6 +702,92 @@
   padding: 8px 0 0;
 }
 
+  
+    /* ===== Standardized Document Cards ===== */
+    .docList{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .docItem{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius: var(--r16);
+      padding: 12px 14px;
+      box-shadow: var(--shadowSm);
+    }
+
+    .docItem:hover{
+      background: rgba(15,23,42,.02);
+    }
+
+    .docHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .docHead.noToggle{ cursor:default; }
+
+    .docTitleRow{
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+      min-width:0;
+    }
+
+    .docTitle{
+      font-size: var(--fs14);
+      font-weight: 900;
+      color: var(--text);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 64vw;
+    }
+
+    .docMeta{
+      font-size: var(--fs12);
+      color: var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 64vw;
+    }
+
+    .docBody{
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px dashed var(--border);
+      display:none;
+    }
+
+    .docItem.open .docBody{
+      display:block;
+    }
+
+    .docLinks{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .docLinks a{
+      font-size: var(--fs13);
+    }
+
+    .docP{
+      margin: 0;
+      color: var(--muted);
+      font-size: var(--fs13);
+      line-height: 1.5;
+    }
+
   </style>
 
   <!-- Google Identity Services (for Drive OAuth) -->
@@ -1273,21 +1359,23 @@
       // Folder pages
       if(key === "pengurusan"){
         showReader("custom","Bidang Bahasa", "Folder: Pengurusan Am", `
+          
           <div class="heroCard">
             <h4>Pengurusan Am</h4>
             <p>Everything operational: surat menyurat, carta organisasi, profil, DSKP, RPH.</p>
           </div>
 
-          <ol>
-            <li>
-  <div class="suratRow">
-    <button class="suratBtn" type="button" onclick="toggleSuratDropdown()">
-      📁 <b>Surat Menyurat</b> <span class="muted small">(klik untuk buka)</span>
-    </button>
-    <span class="count" id="suratStatus">Ready</span>
-  </div>
-
-  <div class="dropdown" id="suratDropdown" style="display:none;">
+          <div class="docList">
+            <div class="docItem">
+              <div class="docHead" onclick="toggleDoc(this); toggleSuratDropdown();">
+                <div class="docTitleRow">
+                  <div class="docTitle">📁 Surat Menyurat</div>
+                  <div class="docMeta">Klik untuk buka</div>
+                </div>
+                <span class="count" id="suratStatus">Ready</span>
+              </div>
+              <div class="docBody">
+                <div class="dropdown" id="suratDropdown" style="display:none;">
     <div class="dropdownHead">
       <div class="pill">Google Drive • Surat Menyurat</div>
 
@@ -1309,205 +1397,347 @@
       <div class="ddHint">Connect first to load files.</div>
     </div>
   </div>
-</li>
-</li>
 
+              </div>
+            </div>
 
-            <li>
-              <details>
-                <summary>Visi &amp; Misi KPM</summary>
-                <div style="margin-top:10px">
-                  <b>VISI</b>
-                  <ul>
-                    <li>Pendidikan Berkualiti, Insan Terdidik, Negara Sejahtera.</li>
-                  </ul>
-                  <b>MISI</b>
-                  <ul>
-                    <li>Melestarikan Sistem Pendidikan yang Berkualiti untuk membangunkan Potensi Individu bagi Memenuhi Aspirasi Negara.</li>
-                  </ul>
+            <div class="docItem">
+              <div class="docHead" onclick="toggleDoc(this);">
+                <div class="docTitleRow">
+                  <div class="docTitle">Visi &amp; Misi KPM</div>
+                  <div class="docMeta">Rujukan dasar</div>
                 </div>
-              </details>
-            </li>
+                <span class="count">↧</span>
+              </div>
+              <div class="docBody">
+                <b>VISI</b>
+                <p class="docP">Pendidikan Berkualiti, Insan Terdidik, Negara Sejahtera.</p>
+                <b>MISI</b>
+                <p class="docP">Melestarikan Sistem Pendidikan yang Berkualiti untuk membangunkan Potensi Individu bagi Memenuhi Aspirasi Negara.</p>
+              </div>
+            </div>
 
-            <li>Struktur / Carta Organisasi JKKS &amp; Panitia</li>
+            <div class="docItem">
+              <div class="docHead noToggle">
+                <div class="docTitleRow">
+                  <div class="docTitle">Struktur / Carta Organisasi JKKS &amp; Panitia</div>
+                  <div class="docMeta">Carta organisasi &amp; jawatankuasa</div>
+                </div>
+                <span class="count">—</span>
+              </div>
+            </div>
 
-            <li>
-              <details>
-                <summary>Butiran Peribadi Ahli Panitia</summary>
-                <ul style="margin-top:10px">
-                  <li>4.1 <a href="PASTE_LINK_DSKP_T1" target="_blank" rel="noopener">Daftar Profil Guru</a></li>
-                  <li>4.2 <a href="PASTE_LINK_DSKP_T2" target="_blank" rel="noopener">Profil Guru</a></li>
-                </ul>
-              </details>
-            </li>
+            <div class="docItem">
+              <div class="docHead" onclick="toggleDoc(this);">
+                <div class="docTitleRow">
+                  <div class="docTitle">Butiran Peribadi Ahli Panitia</div>
+                  <div class="docMeta">Profil &amp; daftar</div>
+                </div>
+                <span class="count">↧</span>
+              </div>
+              <div class="docBody">
+                <div class="docLinks">
+                  <a href="PASTE_LINK_DSKP_T1" target="_blank" rel="noopener">Daftar Profil Guru</a>
+                  <a href="PASTE_LINK_DSKP_T2" target="_blank" rel="noopener">Profil Guru</a>
+                </div>
+              </div>
+            </div>
 
-            <li>Jadual Waktu Persendirian Ahli Panitia</li>
+            <div class="docItem">
+              <div class="docHead noToggle">
+                <div class="docTitleRow">
+                  <div class="docTitle">Jadual Waktu Persendirian Ahli Panitia</div>
+                  <div class="docMeta">Waktu persendirian / relief</div>
+                </div>
+                <span class="count">—</span>
+              </div>
+            </div>
 
-            <li>
-              <details>
-                <summary>Dokumen Standard Kurikulum dan Pentaksiran (DSKP)</summary>
-                <ul style="margin-top:10px">
-                  <li>6.1 <a href="PASTE_LINK_DSKP_T1" target="_blank" rel="noopener">DSKP T1</a></li>
-                  <li>6.2 <a href="PASTE_LINK_DSKP_T2" target="_blank" rel="noopener">DSKP T2</a></li>
-                  <li>6.3 <a href="PASTE_LINK_DSKP_T3" target="_blank" rel="noopener">DSKP T3</a></li>
-                  <li>6.4 <a href="PASTE_LINK_DSKP_T4" target="_blank" rel="noopener">DSKP T4</a></li>
-                  <li>6.5 <a href="PASTE_LINK_DSKP_T5" target="_blank" rel="noopener">DSKP T5</a></li>
-                </ul>
-              </details>
-            </li>
+            <div class="docItem">
+              <div class="docHead" onclick="toggleDoc(this);">
+                <div class="docTitleRow">
+                  <div class="docTitle">Dokumen Standard Kurikulum dan Pentaksiran (DSKP)</div>
+                  <div class="docMeta">Fail rujukan DSKP mengikut tingkatan</div>
+                </div>
+                <span class="count">↧</span>
+              </div>
+              <div class="docBody">
+                <div class="docLinks">
+                  <a href="PASTE_LINK_DSKP_T1" target="_blank" rel="noopener">DSKP T1</a>
+                  <a href="PASTE_LINK_DSKP_T2" target="_blank" rel="noopener">DSKP T2</a>
+                  <a href="PASTE_LINK_DSKP_T3" target="_blank" rel="noopener">DSKP T3</a>
+                  <a href="PASTE_LINK_DSKP_T4" target="_blank" rel="noopener">DSKP T4</a>
+                  <a href="PASTE_LINK_DSKP_T5" target="_blank" rel="noopener">DSKP T5</a>
+                </div>
+              </div>
+            </div>
 
-            <li>
-              <details>
-                <summary>Rancangan Pengajaran Tahunan (RPH guru perlu disemak)</summary>
-                <ul style="margin-top:10px">
-                  <li>7.1 <a href="PASTE_LINK_RPH_T1" target="_blank" rel="noopener">RPH T1</a></li>
-                  <li>7.2 <a href="PASTE_LINK_RPH_T2" target="_blank" rel="noopener">RPH T2</a></li>
-                  <li>7.3 <a href="PASTE_LINK_RPH_T3" target="_blank" rel="noopener">RPH T3</a></li>
-                  <li>7.4 <a href="PASTE_LINK_RPH_T4" target="_blank" rel="noopener">RPH T4</a></li>
-                  <li>7.5 <a href="PASTE_LINK_RPH_T5" target="_blank" rel="noopener">RPH T5</a></li>
-                </ul>
-              </details>
-            </li>
+            <div class="docItem">
+              <div class="docHead" onclick="toggleDoc(this);">
+                <div class="docTitleRow">
+                  <div class="docTitle">Rancangan Pengajaran Tahunan (RPH guru perlu disemak)</div>
+                  <div class="docMeta">RPH mengikut tingkatan</div>
+                </div>
+                <span class="count">↧</span>
+              </div>
+              <div class="docBody">
+                <div class="docLinks">
+                  <a href="PASTE_LINK_RPH_T1" target="_blank" rel="noopener">RPH T1</a>
+                  <a href="PASTE_LINK_RPH_T2" target="_blank" rel="noopener">RPH T2</a>
+                  <a href="PASTE_LINK_RPH_T3" target="_blank" rel="noopener">RPH T3</a>
+                  <a href="PASTE_LINK_RPH_T4" target="_blank" rel="noopener">RPH T4</a>
+                  <a href="PASTE_LINK_RPH_T5" target="_blank" rel="noopener">RPH T5</a>
+                </div>
+              </div>
+            </div>
 
-            <li>Takwim Panitia</li>
-            <li>Jadual &amp; Analisis Pencerapan Guru (Standard 4 SKPMg2)</li>
-            <li>Senarai Buku Teks / Buku Kerja / Buku Rujukan</li>
-            <li>Takwim Aktiviti Ko-Akademik (Jika berkaitan)</li>
-          </ol>
+            <div class="docItem">
+              <div class="docHead noToggle">
+                <div class="docTitleRow">
+                  <div class="docTitle">Takwim Panitia</div>
+                  <div class="docMeta">Perancangan tahunan panitia</div>
+                </div>
+                <span class="count">—</span>
+              </div>
+            </div>
+
+            <div class="docItem">
+              <div class="docHead noToggle">
+                <div class="docTitleRow">
+                  <div class="docTitle">Jadual &amp; Analisis Pencerapan Guru (Standard 4 SKPMg2)</div>
+                  <div class="docMeta">Instrumen &amp; evidens pencerapan</div>
+                </div>
+                <span class="count">—</span>
+              </div>
+            </div>
+
+            <div class="docItem">
+              <div class="docHead noToggle">
+                <div class="docTitleRow">
+                  <div class="docTitle">Senarai Buku Teks / Buku Kerja / Buku Rujukan</div>
+                  <div class="docMeta">Rujukan PdP</div>
+                </div>
+                <span class="count">—</span>
+              </div>
+            </div>
+
+            <div class="docItem">
+              <div class="docHead noToggle">
+                <div class="docTitleRow">
+                  <div class="docTitle">Takwim Aktiviti Ko-Akademik (Jika berkaitan)</div>
+                  <div class="docMeta">Aktiviti sokongan akademik</div>
+                </div>
+                <span class="count">—</span>
+              </div>
+            </div>
+          </div>
+
         `);
         return;
       }
 
       if(key === "pekeliling"){
         showReader("custom","Bidang Bahasa", "Folder: Pekeliling", `
+          
           <div class="heroCard">
             <h4>Pekeliling</h4>
-            <p>Collection of key SPI & circular references.</p>
+            <p>Collection of key SPI &amp; circular references.</p>
           </div>
 
-          <ol>
-            <li><a href="https://drive.google.com/file/d/1Omg1TBWYB8Jn1jWRUQeWwVzH_UvafhI3/view?usp=sharing" target="_blank" rel="noopener">SPI Bil 4/1986: Panitia Mata Pelajaran</a></li>
-            <li><a href="https://drive.google.com/file/d/1R55lQSmldAr0un-G7LuyO_VmQ6IsXu7D/view?usp=sharing" target="_blank" rel="noopener">SPI Bil 3/1987: Penyeliaan Pengajaran Pembelajaran</a></li>
-            <li><a href="https://drive.google.com/file/d/1H-SOMz-KMyPXoLm0EVsZWgb9XD2nJxma/view?usp=sharing" target="_blank" rel="noopener">SPI Bil 3/1999: Penyediaan Rekod PdP</a></li>
-            <li><a href="PASTE_LINK_PEKELILING_LAIN" target="_blank" rel="noopener">Pekeliling Lain Yang Berkaitan</a></li>
-          </ol>
+          <div class="docList">
+            <div class="docItem">
+              <div class="docHead" onclick="window.open('https://drive.google.com/file/d/1Omg1TBWYB8Jn1jWRUQeWwVzH_UvafhI3/view?usp=sharing','_blank','noopener')">
+                <div class="docTitleRow">
+                  <div class="docTitle">SPI Bil 4/1986: Panitia Mata Pelajaran</div>
+                  <div class="docMeta">Klik untuk buka</div>
+                </div>
+                <span class="count">↗</span>
+              </div>
+            </div>
+
+            <div class="docItem">
+              <div class="docHead" onclick="window.open('https://drive.google.com/file/d/1R55lQSmldAr0un-G7LuyO_VmQ6IsXu7D/view?usp=sharing','_blank','noopener')">
+                <div class="docTitleRow">
+                  <div class="docTitle">SPI Bil 3/1987: Penyeliaan Pengajaran Pembelajaran</div>
+                  <div class="docMeta">Klik untuk buka</div>
+                </div>
+                <span class="count">↗</span>
+              </div>
+            </div>
+
+            <div class="docItem">
+              <div class="docHead" onclick="window.open('https://drive.google.com/file/d/1H-SOMz-KMyPXoLm0EVsZWgb9XD2nJxma/view?usp=sharing','_blank','noopener')">
+                <div class="docTitleRow">
+                  <div class="docTitle">SPI Bil 3/1999: Penyediaan Rekod PdP</div>
+                  <div class="docMeta">Klik untuk buka</div>
+                </div>
+                <span class="count">↗</span>
+              </div>
+            </div>
+
+            <div class="docItem">
+              <div class="docHead" onclick="window.open('PASTE_LINK_PEKELILING_LAIN','_blank','noopener')">
+                <div class="docTitleRow">
+                  <div class="docTitle">Pekeliling Lain Yang Berkaitan</div>
+                  <div class="docMeta">Klik untuk buka</div>
+                </div>
+                <span class="count">↗</span>
+              </div>
+            </div>
+          </div>
+
         `);
         return;
       }
 
       if(key === "mesyuarat"){
         showReader("custom","Bidang Bahasa", "Folder: Mesyuarat", `
+          
           <div class="heroCard">
             <h4>Mesyuarat</h4>
-            <p>Surat panggilan & minit JKKS / Panitia.</p>
+            <p>Surat panggilan &amp; minit JKKS / Panitia.</p>
           </div>
 
-          <ol>
-            <li>
-              <details>
-                <summary>Surat Panggilan Mesyuarat JKKS</summary>
-                <ul style="margin-top:10px">
-                  <li>1.1 <a href="PASTE_LINK_JKKS_SURAT_1" target="_blank" rel="noopener">Surat Panggilan 1</a></li>
-                  <li>1.2 <a href="PASTE_LINK_JKKS_SURAT_2" target="_blank" rel="noopener">Surat Panggilan 2</a></li>
-                  <li>1.3 <a href="PASTE_LINK_JKKS_SURAT_3" target="_blank" rel="noopener">Surat Panggilan 3</a></li>
-                  <li>1.4 <a href="PASTE_LINK_JKKS_SURAT_4" target="_blank" rel="noopener">Surat Panggilan 4</a></li>
-                </ul>
-              </details>
-            </li>
+          <div class="docList">
+            <div class="docItem">
+              <div class="docHead" onclick="toggleDoc(this);">
+                <div class="docTitleRow">
+                  <div class="docTitle">Surat Panggilan Mesyuarat JKKS</div>
+                  <div class="docMeta">Klik untuk buka senarai</div>
+                </div>
+                <span class="count">↧</span>
+              </div>
+              <div class="docBody">
+                <div class="docLinks">
+                  <a href="PASTE_LINK_JKKS_SURAT_1" target="_blank" rel="noopener">Surat Panggilan 1</a>
+                  <a href="PASTE_LINK_JKKS_SURAT_2" target="_blank" rel="noopener">Surat Panggilan 2</a>
+                  <a href="PASTE_LINK_JKKS_SURAT_3" target="_blank" rel="noopener">Surat Panggilan 3</a>
+                  <a href="PASTE_LINK_JKKS_SURAT_4" target="_blank" rel="noopener">Surat Panggilan 4</a>
+                </div>
+              </div>
+            </div>
 
-            <li>
-              <details>
-                <summary>Minit Mesyuarat JKKS</summary>
-                <ul style="margin-top:10px">
-                  <li>2.1 <a href="PASTE_LINK_JKKS_MINIT_1" target="_blank" rel="noopener">Mesyuarat JKKS 1</a></li>
-                  <li>2.2 <a href="PASTE_LINK_JKKS_MINIT_2" target="_blank" rel="noopener">Mesyuarat JKKS 2</a></li>
-                  <li>2.3 <a href="PASTE_LINK_JKKS_MINIT_3" target="_blank" rel="noopener">Mesyuarat JKKS 3</a></li>
-                  <li>2.4 <a href="PASTE_LINK_JKKS_MINIT_4" target="_blank" rel="noopener">Mesyuarat JKKS 4</a></li>
-                </ul>
-              </details>
-            </li>
+            <div class="docItem">
+              <div class="docHead" onclick="toggleDoc(this);">
+                <div class="docTitleRow">
+                  <div class="docTitle">Minit Mesyuarat JKKS</div>
+                  <div class="docMeta">Klik untuk buka senarai</div>
+                </div>
+                <span class="count">↧</span>
+              </div>
+              <div class="docBody">
+                <div class="docLinks">
+                  <a href="PASTE_LINK_JKKS_MINIT_1" target="_blank" rel="noopener">Mesyuarat JKKS 1</a>
+                  <a href="PASTE_LINK_JKKS_MINIT_2" target="_blank" rel="noopener">Mesyuarat JKKS 2</a>
+                  <a href="PASTE_LINK_JKKS_MINIT_3" target="_blank" rel="noopener">Mesyuarat JKKS 3</a>
+                  <a href="PASTE_LINK_JKKS_MINIT_4" target="_blank" rel="noopener">Mesyuarat JKKS 4</a>
+                </div>
+              </div>
+            </div>
 
-            <li>
-              <details>
-                <summary>Surat Panggilan Mesyuarat Panitia</summary>
-                <ul style="margin-top:10px">
-                  <li>3.1 <a href="PASTE_LINK_PANITIA_SURAT_1" target="_blank" rel="noopener">Surat Panggilan 1</a></li>
-                  <li>3.2 <a href="PASTE_LINK_PANITIA_SURAT_2" target="_blank" rel="noopener">Surat Panggilan 2</a></li>
-                  <li>3.3 <a href="PASTE_LINK_PANITIA_SURAT_3" target="_blank" rel="noopener">Surat Panggilan 3</a></li>
-                  <li>3.4 <a href="PASTE_LINK_PANITIA_SURAT_4" target="_blank" rel="noopener">Surat Panggilan 4</a></li>
-                </ul>
-              </details>
-            </li>
+            <div class="docItem">
+              <div class="docHead" onclick="toggleDoc(this);">
+                <div class="docTitleRow">
+                  <div class="docTitle">Surat Panggilan Mesyuarat Panitia</div>
+                  <div class="docMeta">Klik untuk buka senarai</div>
+                </div>
+                <span class="count">↧</span>
+              </div>
+              <div class="docBody">
+                <div class="docLinks">
+                  <a href="PASTE_LINK_PANITIA_SURAT_1" target="_blank" rel="noopener">Surat Panggilan 1</a>
+                  <a href="PASTE_LINK_PANITIA_SURAT_2" target="_blank" rel="noopener">Surat Panggilan 2</a>
+                  <a href="PASTE_LINK_PANITIA_SURAT_3" target="_blank" rel="noopener">Surat Panggilan 3</a>
+                  <a href="PASTE_LINK_PANITIA_SURAT_4" target="_blank" rel="noopener">Surat Panggilan 4</a>
+                </div>
+              </div>
+            </div>
 
-            <li>
-              <details>
-                <summary>Minit Mesyuarat Panitia</summary>
-                <ul style="margin-top:10px">
-                  <li>4.1 <a href="PASTE_LINK_PANITIA_MINIT_1" target="_blank" rel="noopener">Mesyuarat Panitia 1</a></li>
-                  <li>4.2 <a href="PASTE_LINK_PANITIA_MINIT_2" target="_blank" rel="noopener">Mesyuarat Panitia 2</a></li>
-                  <li>4.3 <a href="PASTE_LINK_PANITIA_MINIT_3" target="_blank" rel="noopener">Mesyuarat Panitia 3</a></li>
-                  <li>4.4 <a href="PASTE_LINK_PANITIA_MINIT_4" target="_blank" rel="noopener">Mesyuarat Panitia 4</a></li>
-                </ul>
-              </details>
-            </li>
-          </ol>
+            <div class="docItem">
+              <div class="docHead" onclick="toggleDoc(this);">
+                <div class="docTitleRow">
+                  <div class="docTitle">Minit Mesyuarat Panitia</div>
+                  <div class="docMeta">Klik untuk buka senarai</div>
+                </div>
+                <span class="count">↧</span>
+              </div>
+              <div class="docBody">
+                <div class="docLinks">
+                  <a href="PASTE_LINK_PANITIA_MINIT_1" target="_blank" rel="noopener">Mesyuarat Panitia 1</a>
+                  <a href="PASTE_LINK_PANITIA_MINIT_2" target="_blank" rel="noopener">Mesyuarat Panitia 2</a>
+                  <a href="PASTE_LINK_PANITIA_MINIT_3" target="_blank" rel="noopener">Mesyuarat Panitia 3</a>
+                  <a href="PASTE_LINK_PANITIA_MINIT_4" target="_blank" rel="noopener">Mesyuarat Panitia 4</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
         `);
         return;
       }
 
       if(key === "pentaksiran"){
         showReader("custom","Bidang Bahasa", "Folder: Pentaksiran", `
+          
           <div class="heroCard">
             <h4>Pentaksiran</h4>
             <p>Headcount, post mortem, PBD reporting, item bank.</p>
           </div>
-          <ol>
-            <li>Takwim Pentaksiran</li>
-            <li>Jadual Penyediaan Kertas Peperiksaan</li>
-            <li>Jadual Penyemakan Latihan Murid</li>
-            <li>Data dan Analisis Headcount</li>
-            <li>Analisis &amp; Laporan Post Mortem Peperiksaan Dalaman</li>
-            <li>Analisis &amp; Laporan Post Mortem Peperiksaan Awam</li>
-            <li>Pelaporan PBD</li>
-            <li>Kerja Kursus (Jika berkaitan)</li>
-            <li>Koleksi Soalan Peperiksaan &amp; JSU</li>
-            <li>Koleksi Modul Pembelajaran</li>
-          </ol>
+
+          <div class="docList">
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Takwim Pentaksiran</div><div class="docMeta">Jadual & tarikh pentaksiran</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Jadual Penyediaan Kertas Peperiksaan</div><div class="docMeta">Penyediaan instrumen</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Jadual Penyemakan Latihan Murid</div><div class="docMeta">Pemantauan latihan</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Data dan Analisis Headcount</div><div class="docMeta">TOV / ETR / sasaran</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Analisis &amp; Laporan Post Mortem Peperiksaan Dalaman</div><div class="docMeta">PM dalaman</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Analisis &amp; Laporan Post Mortem Peperiksaan Awam</div><div class="docMeta">PM awam</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Pelaporan PBD</div><div class="docMeta">Rekod & pelaporan</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Kerja Kursus (Jika berkaitan)</div><div class="docMeta">PA / KK</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Koleksi Soalan Peperiksaan &amp; JSU</div><div class="docMeta">Bank soalan</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Koleksi Modul Pembelajaran</div><div class="docMeta">Modul / latihan</div></div><span class="count">—</span></div></div>
+          </div>
+
         `);
         return;
       }
 
       if(key === "strategik"){
         showReader("custom","Bidang Bahasa", "Folder: Perancangan Strategik", `
+          
           <div class="heroCard">
             <h4>Perancangan Strategik</h4>
             <p>Pelan taktikal, pelan operasi, program peningkatan.</p>
           </div>
-          <ol>
-            <li>Pelan Taktikal</li>
-            <li>Pelan Operasi</li>
-            <li>Perancangan Program Peningkatan Profesionalisme Guru</li>
-            <li>Pelaporan Program Peningkatan Profesionalisme Guru</li>
-            <li>Perancangan Program Peningkatan Akademik Murid</li>
-            <li>Pelaporan Program Peningkatan Akademik Murid</li>
-          </ol>
+
+          <div class="docList">
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Pelan Taktikal</div><div class="docMeta">Sasaran & strategi</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Pelan Operasi</div><div class="docMeta">Pelaksanaan tindakan</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Perancangan Program Peningkatan Profesionalisme Guru</div><div class="docMeta">Perancangan</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Pelaporan Program Peningkatan Profesionalisme Guru</div><div class="docMeta">Pelaporan</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Perancangan Program Peningkatan Akademik Murid</div><div class="docMeta">Perancangan</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Pelaporan Program Peningkatan Akademik Murid</div><div class="docMeta">Pelaporan</div></div><span class="count">—</span></div></div>
+          </div>
+
         `);
         return;
       }
 
       if(key === "kewangan"){
         showReader("custom","Bidang Bahasa", "Folder: Kewangan", `
+          
           <div class="heroCard">
             <h4>Kewangan</h4>
-            <p>Agihan PCG, perancangan, invois & rekod sumber.</p>
+            <p>Agihan PCG, perancangan, invois &amp; rekod sumber.</p>
           </div>
-          <ol>
-            <li>Agihan PCG Mata Pelajaran</li>
-            <li>Perancangan Perbelanjaan</li>
-            <li>Nota Minta</li>
-            <li>Invois</li>
-            <li>Rekod Penggunaan Sumber Pendidikan</li>
-          </ol>
+
+          <div class="docList">
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Agihan PCG Mata Pelajaran</div><div class="docMeta">Agihan peruntukan</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Perancangan Perbelanjaan</div><div class="docMeta">Bajet & perancangan</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Nota Minta</div><div class="docMeta">Permohonan</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Invois</div><div class="docMeta">Rekod pembelian</div></div><span class="count">—</span></div></div>
+            <div class="docItem"><div class="docHead noToggle"><div class="docTitleRow"><div class="docTitle">Rekod Penggunaan Sumber Pendidikan</div><div class="docMeta">Log penggunaan</div></div><span class="count">—</span></div></div>
+          </div>
+
         `);
         return;
       }
@@ -1835,6 +2065,15 @@ function escapeHtml(s){
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+}
+
+
+function toggleDoc(el){
+  if(!el) return;
+  if(el.classList && el.classList.contains("noToggle")) return;
+  const item = el.closest(".docItem");
+  if(!item) return;
+  item.classList.toggle("open");
 }
 
 
